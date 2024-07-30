@@ -3,7 +3,7 @@ name: Deploy to kubernetes credentials to AKS
 on:
   push:
     branches:
-      - deploy
+      - main
     paths:
       - 'sock-shop-app/k8s/**'
       - 'sock-shop-app/monitoring/**'
