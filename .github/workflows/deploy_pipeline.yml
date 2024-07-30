@@ -76,7 +76,7 @@ jobs:
           helm list --namespace ingress-nginx | grep -q '^nginx-ingress\s' || helm install nginx-ingress ingress-nginx/ingress-nginx \
           --namespace ingress-nginx \
           --create-namespace \
-          --set controller.replicaCount=2 
+          --set controller.replicaCount=2\
           --set defaultBackend.enabled=true
 
       - name: Apply Ingress and Issuer
