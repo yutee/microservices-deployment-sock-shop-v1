@@ -60,7 +60,7 @@ jobs:
       - name: Install Prometheus
         run: |
           # kubectl create namespace monitoring || true
-          helm install prometheus prometheus-community/prometheus --namespace monitoring
+          helm list --namespace monitoring | grep -q '^prometheus\s' || helm install prometheus prometheus-community/prometheus --namespace monitoring
 
       - name: Install Grafana
         run: |
