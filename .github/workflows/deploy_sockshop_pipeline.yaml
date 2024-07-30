@@ -43,7 +43,9 @@ jobs:
       #     echo "${{ secrets.KUBECONFIG_BASE64 }}" | base64 --decode > $HOME/.kube/config
 
       - name: Deploy to AKS
-        run: kubectl apply -f deployment.yaml
+        run: |
+          cd sock-shop-app/k8s
+          kubectl apply -f sock-shop-dp.yaml
 
       - name: Install Helm
         run: |
