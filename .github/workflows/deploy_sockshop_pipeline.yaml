@@ -38,9 +38,8 @@ jobs:
         with:
           version: 'latest'
           
-      # - name: Decode and save kubeconfig
-      #   run: |
-      #     echo "${{ secrets.KUBECONFIG_BASE64 }}" | base64 --decode > $HOME/.kube/config
+      - name: Get AKS credentials
+        run: az aks get-credentials --resource-group sockshop-7382-RG --name sockshop-7382-AKS --admin --overwrite-existing
 
       - name: Deploy to AKS
         run: |
