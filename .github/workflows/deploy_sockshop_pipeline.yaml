@@ -1,8 +1,9 @@
-name: Deploy to kubernetes credentials to AKS
+name: Deploy to kubernetes app on AKS
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+    - main
     paths:
       - 'sock-shop-app/k8s/**'
       - 'sock-shop-app/monitoring/**'
@@ -32,14 +33,14 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Decode and save kubeconfig
-        run: |
-          echo "${{ secrets.KUBECONFIG_BASE64 }}" | base64 --decode > $HOME/.kube/config
-
       - name: Set up kubectl
         uses: azure/setup-kubectl@v3
         with:
           version: 'latest'
+          
+      - name: Decode and save kubeconfig
+        run: |
+          echo "${{ secrets.KUBECONFIG_BASE64 }}" | base64 --decode > $HOME/.kube/config
 
       - name: Deploy to AKS
         run: kubectl apply -f deployment.yaml
