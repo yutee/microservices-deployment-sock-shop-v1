@@ -34,7 +34,7 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Get AKS credentials
-        run: az aks get-credentials --resource-group YOUR_RESOURCE_GROUP --name YOUR_AKS_CLUSTER_NAME --admin --overwrite-existing
+        run: az aks get-credentials --resource-group sockshop-7382-RG --name sockshop-7382-AKS --admin --overwrite-existing
 
       - name: Set up kubectl
         uses: azure/setup-kubectl@v3
