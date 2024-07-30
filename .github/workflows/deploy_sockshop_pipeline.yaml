@@ -10,6 +10,13 @@ on:
       - 'sock-shop-app/alerting/**'
       - 'sock-shop-app/logging/**'
 
+  workflow_dispatch:
+    inputs:
+      example_input:
+        description: 'An example input'
+        required: false
+        default: 'default_value'
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
