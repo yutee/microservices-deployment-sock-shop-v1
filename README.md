@@ -1,5 +1,5 @@
-## Deploying a micro-services architecture application
----
+## Deploying a microservices-based architecture application
+
 ### Overview:
 A microservices architecture divides an application into small, independent services that communicate over a network.
 In this project, we'll deploy SockShop, a containerized microservices-based application, using Kubernetes for orchestration.
@@ -24,7 +24,8 @@ The app and everything needed to run it is in the `sock-shop-app` directory. The
     - Terraform - Terraform configuration for provisioning of 
 
 
-### Technologies:
+### Prerequisites:
+__Technologies__
 To complete the setup, you will need access to several utilities and services, they include:
     - Microsoft Azure
     - Terraform 
@@ -36,7 +37,7 @@ To complete the setup, you will need access to several utilities and services, t
     - Azure KeyVault and Firewall
 
 
-### Before you start:
+__Before you start__
 The follwing processes assumes you have some basic familiarity with Kubernetes and that you should have these installed:
 - Azure account with active subcription
 - AzCLI configured on your terminal
@@ -45,7 +46,7 @@ The follwing processes assumes you have some basic familiarity with Kubernetes a
 - Helm
 
 
-### Starting:
+### Setup Process:
 __Terraform__
 Clone the repo or setup your folder structure. Navigate to the terraform directory and write/confirm your configuration files to provision a Kubernetes cluster on Microsoft Azure. The terraform [main.tf](sock-shop-app/terraform/main.tf) file includes configurations to create a resource group and an Azure Kubernetes Service within that group.
 _N/B: If you have not previously used docker or any container services in the azure subscription you are plannign to deploy to, you might have to add microsoft container services to the subscription_
@@ -80,7 +81,7 @@ Do `kubectl port-forward service/front-end -n sock-shop 30001:80`
     ![screenshot](images/exposing.png)
     ![screenshot](images/exposed.png)
 
-Now, while the frontend service does enough to expose the app, we need a more flexible and fine-grained control over incoming traffic. An Ingress is needed to give services in the cluster externally-reachable URLs, load balance traffic, terminate SSL / TLS, and offer name-based virtual hosting.
+Now, while the frontend service does enough to expose the app, we need a more flexible and fine-grained control over incoming traffic. An Ingress is needed to give services in the cluster externally-reachable URLs, load balance traffic, terminate SSL/TLS, and offer name-based virtual hosting.
 
 To use ingress, find the [ingress.yaml](sock-shop-app/k8s/ingress.yaml) file with the configurations and install an ingress controller in the cluster, here, the nginx ingress controller will be used.
     ![screenshot](images/apply-ingress.png)
@@ -97,7 +98,7 @@ To reach let's encrypt, we will have to instal cert-manager in our cluster.
 
 __Setup monitoring, logging and alerts__
 For monitoring, Prometheus is used alongside Grafana for visualization. Added to monitoring, it also offers alerts that ensure admins are notified of a possible probelm before it occurs.
-You will have to install prometheus and grafana using helm and then apply the files containing the configurations for targets and metrics to be gotten. They will run as pods on your sluster. It is best practice to run them in a seperate namespace.
+You will have to install prometheus and grafana using helm and then apply the files containing the configurations for targets and metrics to be gotten. There will run as pods on your cluster. It is best practice to run them in a seperate namespace.
     ![screenshot](images/install-prom.png)
     ![screenshot](images/install-grafana.png)
     ![screenshot](images/namespace-monitoring.png)
@@ -111,5 +112,9 @@ Github Actions will create a `.github/workflow` directory in the project's root 
 __Summary__
 We have successfuly deployed the app and it is fully automated.
 If any changes are made to the repo, github actions will build the process we just completed.
+
+
+### Evaluation criteria:
+
 
 
