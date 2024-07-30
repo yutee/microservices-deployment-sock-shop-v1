@@ -3,7 +3,7 @@ name: Deploy to kubernetes credentials to AKS
 on:
   push:
     branches:
-      - deploy
+      - main
     paths:
       - 'sock-shop-app/k8s/**'
       - 'sock-shop-app/monitoring/**'
@@ -12,7 +12,6 @@ on:
 
 jobs:
   deploy:
-    if: github.event.before == '0000000000000000000000000000000000000000' || startsWith(github.event.head_commit.message, 'Merge branch \'main\' into deploy')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
