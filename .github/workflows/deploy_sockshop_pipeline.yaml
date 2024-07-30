@@ -3,7 +3,7 @@ name: Deploy to kubernetes app on AKS
 on:
   push:
     branches:
-    - main
+      - main
     paths:
       - 'sock-shop-app/k8s/**'
       - 'sock-shop-app/monitoring/**'
@@ -38,9 +38,9 @@ jobs:
         with:
           version: 'latest'
           
-      - name: Decode and save kubeconfig
-        run: |
-          echo "${{ secrets.KUBECONFIG_BASE64 }}" | base64 --decode > $HOME/.kube/config
+      # - name: Decode and save kubeconfig
+      #   run: |
+      #     echo "${{ secrets.KUBECONFIG_BASE64 }}" | base64 --decode > $HOME/.kube/config
 
       - name: Deploy to AKS
         run: kubectl apply -f deployment.yaml
