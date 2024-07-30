@@ -73,12 +73,15 @@ jobs:
       
       - name: Install NGINX Ingress Controller
         run: |
-          helm list --namespace ingress-nginx | grep -q '^nginx-ingress\s' || helm install nginx-ingress ingress-nginx/ingress-nginx \
-          --namespace ingress-nginx \
-          --create-namespace \
-          --set controller.replicaCount=2 \
-          --set defaultBackend.enabled=true
-
+          if kubectl get pods --namespace ingress-nginx | grep -q 'nginx-ingress'; then
+            echo "NGINX is installed"
+          else
+            helm install nginx-ingress ingress-nginx/ingress-nginx \
+            --namespace ingress-nginx \
+            --create-namespace \
+            --set controller.replicaCount=2 \
+            --set defaultBackend.enabled=true
+          fi
 
       - name: Apply Ingress and Issuer
         run: |
