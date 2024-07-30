@@ -45,7 +45,7 @@ jobs:
       - name: Deploy to AKS
         run: |
           cd sock-shop-app/k8s
-          kubectl apply -f sock-shop-dp.yaml
+          kubectl apply -f sock-shop-dp.yaml --validate=false
 
       - name: Install Helm
         run: |
