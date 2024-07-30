@@ -64,20 +64,20 @@ jobs:
 
       - name: Install Grafana
         run: |
-          helm install grafana grafana/grafana --namespace monitoring
+          helm list --namespace monitoring | grep -q '^grafana\s' || helm install grafana grafana/grafana --namespace monitoring
 
       - name: Add NGINX Ingress Controller Helm repository
         run: |
-          helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+          helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx || true
           helm repo update
       
       - name: Install NGINX Ingress Controller
         run: |
-          helm install nginx-ingress ingress-nginx/ingress-nginx \
-            --namespace ingress-nginx \
-            --create-namespace \
-            --set controller.replicaCount=2 \
-            --set defaultBackend.enabled=true
+          helm list --namespace ingress-nginx | grep -q '^nginx-ingress\s' || helm install nginx-ingress ingress-nginx/ingress-nginx \
+          --namespace ingress-nginx \
+          --create-namespace \
+          --set controller.replicaCount=2 
+          --set defaultBackend.enabled=true
 
       - name: Apply Ingress and Issuer
         run: |
