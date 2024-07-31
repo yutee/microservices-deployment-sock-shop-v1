@@ -49,6 +49,11 @@ The follwing processes assumes you have some basic familiarity with Kubernetes a
 ### Setup Process:
 __Terraform__
 Clone the repo or setup your folder structure. Navigate to the terraform directory and write/confirm your configuration files to provision a Kubernetes cluster on Microsoft Azure. The terraform [main.tf](sock-shop-app/terraform/main.tf) file includes configurations to create a resource group and an Azure Kubernetes Service within that group.
+
+
+-------Explain infrastructure configuration--------
+
+
 _N/B: If you have not previously used docker or any container services in the azure subscription you are plannign to deploy to, you might have to add microsoft container services to the subscription_
 
 Once you are done with your configuration,
@@ -98,6 +103,11 @@ To reach let's encrypt, we will have to instal cert-manager in our cluster.
 
 __Setup monitoring, logging and alerts__
 For monitoring, Prometheus is used alongside Grafana for visualization. Added to monitoring, it also offers alerts that ensure admins are notified of a possible probelm before it occurs.
+
+
+-------Explain what prometheus gathers, and what grafana shows--------
+
+
 You will have to install prometheus and grafana using helm and then apply the files containing the configurations for targets and metrics to be gotten. There will run as pods on your cluster. It is best practice to run them in a seperate namespace.
     ![screenshot](images/install-prom.png)
     ![screenshot](images/install-grafana.png)
@@ -105,16 +115,30 @@ You will have to install prometheus and grafana using helm and then apply the fi
     ![screenshot](images/grafana-running.png)
 
 __Building a CI/CD pipeline__
-Continous Integration and continous delivery is a key DevOps concept. 
-Github Actions will be used to build a ci/cd pipeline for the successful deployment and automation of the Sockshop app. GitHub Actions is a continuous integration and continuous delivery (CI/CD) platform that allows you to automate your build, test, and deployment pipeline.
-Github Actions will create a `.github/workflow` directory in the project's root directory. Action files wriiten in yaml will be saved there.
+Continous integration and continous delivery is one of the most important concept in DevOps. It is a set of practices that is used in software development to improve the process of delivering code changes. It helps deliver software more quickly and with higher quality by automating testing and deployment.
+Github Actions will be used to build a ci/cd pipeline for the continous deployment and automation of the Sockshop app. 
 
-__Summary__
-We have successfuly deployed the app and it is fully automated.
-If any changes are made to the repo, github actions will build the process we just completed.
+The workflow file can be found [here.](.github/workflows/deploy_pipeline.yml)
+The pipeline is triggered with every push to the repo and it starts jobs that:
+    - Installs Helm, Azcli, Prometheus and Grafana
+    - Configures Azure account, Kubectl
+    - Updates the app with updated configurations to any part of kubernetes application by applying all configuration files
+
+Testing the pipeline:
+Initially, the frontend service which serves as an entry point to our app was configured with type nodeport, but as we now use ingress to expose the service, it is required that we reconfigure the service to type cluster ip.
+    ![screenshot](images/svc_nodeport.png)
+
+We will make this change and push it to the repo from our local system.
+    ![screenshot](images/svc_update.png)
+    ![screenshot](images/push_request.png)
+
+After succcessful run of the pipeline
+    ![screenshot](images/jobs_done.png)
+
+We can go back to check our services and confirm the type that the frontend service is of:
+    ![screenshot](images/svc_cluster.png)
 
 
-### Evaluation criteria:
-
+In a similar manner, the pipeline will be responsible for any changes to our application and ensure it is delivered swifty to our cluster.
 
 
