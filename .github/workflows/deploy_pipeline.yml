@@ -71,14 +71,14 @@ jobs:
           helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx || true
           helm repo update
       
-      - name: Install NGINX Ingress Controller
-        run: |
-          helm list --namespace ingress-nginx | grep -q '^nginx-ingress\s' || helm install nginx-ingress ingress-nginx/ingress-nginx \
-          --namespace ingress-nginx \
-          --create-namespace \
-          --set controller.replicaCount=2 \
-          --set defaultBackend.enabled=true \
-          --skip-crds
+      # - name: Install NGINX Ingress Controller
+      #   run: |
+      #     helm list --namespace ingress-nginx | grep -q '^nginx-ingress\s' || helm install nginx-ingress ingress-nginx/ingress-nginx \
+      #     --namespace ingress-nginx \
+      #     --create-namespace \
+      #     --set controller.replicaCount=2 \
+      #     --set defaultBackend.enabled=true \
+      #     --skip-crds
 
 
       - name: Apply Ingress and Issuer
