@@ -12,7 +12,7 @@ Core DevOps practices will be employed to automate the deployment of SockShop, t
     - Security
 
 SockShop includes several microservices, such as the front-end, carts, catalouge, payments and shipping. Each service operates independently but share relevant data accross the deployment. Each microservice is packaged in a docker image and kubernetes is used to deploy and orchestrate the communication between the different services. Below is an architectural diagram illustrating the application's workflow.
-    ![architecture diagram](images/architecture.png)
+    ![architecture diagram](images/architecture.png) ---arrange diagram---
 
 I setup my project folder to have all key parts of the project.
     ![screen of my project folder structure](images/filestructure.png)
@@ -51,7 +51,7 @@ __Terraform__
 Clone the repo or setup your folder structure. Navigate to the terraform directory and write/confirm your configuration files to provision a Kubernetes cluster on Microsoft Azure. The terraform [main.tf](sock-shop-app/terraform/main.tf) file includes configurations to create a resource group and an Azure Kubernetes Service within that group.
 
 
--------Explain infrastructure configuration--------
+The terraform configuration handles a basic configuration of a Azure Kubernetes Cluster. It creates a resource group and creates a fully managed kibernetes cluster in in the specified azure subscription.
 
 
 _N/B: If you have not previously used docker or any container services in the azure subscription you are plannign to deploy to, you might have to add microsoft container services to the subscription_
@@ -105,7 +105,11 @@ __Setup monitoring, logging and alerts__
 For monitoring, Prometheus is used alongside Grafana for visualization. Added to monitoring, it also offers alerts that ensure admins are notified of a possible probelm before it occurs.
 
 
--------Explain what prometheus gathers, and what grafana shows--------
+Promethus is responsible for gathering data (metrics) , Grafana handles a data visualizing, and Alertmanager is the warning system that tells you when there's a problem in the cluster.
+
+Prometheus collects and stores metrics.
+Grafana connects to Prometheus to display these metrics in dashboards.
+Alertmanager receives alerts from Prometheus when something goes wrong and notifies you or your team.
 
 
 You will have to install prometheus and grafana using helm and then apply the files containing the configurations for targets and metrics to be gotten. There will run as pods on your cluster. It is best practice to run them in a seperate namespace.
